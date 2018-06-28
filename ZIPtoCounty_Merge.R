@@ -44,9 +44,18 @@ LIA_county %>%
 allprograms <- LIA_county %>% 
   left_join(counties, by = "county_fips")
 
+# Because we don't have HANDS data, but they say they're in every county in KY
+HANDS <- counties %>% 
+  filter(state_abbv == "KY") 
+
 ggplot(data = counties, mapping = aes(x = long, y = lat, group = group)) +
   geom_polygon(color = "#ffffff", fill = "gray", size = 0.05) +
   geom_polygon(data = allprograms,
+               mapping = aes(x = long, y = lat, group = group),
+               color = "#ffffff",
+               fill = "#00aac3",
+               size = 0.05) +
+  geom_polygon(data = HANDS,
                mapping = aes(x = long, y = lat, group = group),
                color = "#ffffff",
                fill = "#00aac3",
